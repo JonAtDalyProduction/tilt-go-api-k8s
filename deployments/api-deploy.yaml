@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-go-api
+  labels:
+    app: example-go-api
+spec:
+  selector:
+    matchLabels:
+      app: example-go-api
+  template:
+    metadata:
+      labels:
+        app: example-go-api
+    spec:
+      containers:
+        - name: example-go-api
+          image: example-go-api-image
+          ports:
+            - containerPort: 3333

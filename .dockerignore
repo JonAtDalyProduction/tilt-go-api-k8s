@@ -1,0 +1,9 @@
+Dockerfile
+README*
+Tiltfile
+*.git*
+*.idea*
+*.vscode*
+*.env*
+cmd
+deployments
