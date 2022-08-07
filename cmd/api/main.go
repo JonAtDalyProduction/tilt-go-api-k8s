@@ -1,9 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"net/http"
 	"os"
 )
@@ -11,7 +11,14 @@ import (
 const HTTP_PORT = "3333"
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
-	_, err := io.WriteString(w, "api root response")
+	w.Header().Set("Content-Type", "application/json")
+	res := make(map[string]string)
+	res["message"] = "Go API is Working"
+	jsonRes, err := json.Marshal(res)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	}
+	_, err = w.Write(jsonRes)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
