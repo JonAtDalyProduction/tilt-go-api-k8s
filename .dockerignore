@@ -4,6 +4,5 @@ Tiltfile
 *.git*
 *.idea*
 *.vscode*
-*.env*
 cmd
 deployments

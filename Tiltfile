@@ -17,9 +17,11 @@ docker_build_with_restart(
   dockerfile='Dockerfile',
   only=[
     './build',
+    './dev.env'
   ],
   live_update=[
     sync('./build', '/app/build'),
+    sync('./dev.env', '/app/')
   ],
 )
 

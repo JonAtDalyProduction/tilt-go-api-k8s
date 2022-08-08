@@ -6,10 +6,20 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	envloader "github.com/JonAtDalyProduction/go-env-loader"
 )
 
-const HTTP_PORT = "3333"
+type AppConfig struct {
+	HttpPort string `env:"HTTP_PORT,required=false"`
+}
 
+var appConfig AppConfig
+
+func init() {
+	envloader.ParseEnv(&appConfig, "dev.env")
+	//appConfig.HttpPort = "3333"
+}
 func getRoot(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
@@ -26,11 +36,10 @@ func getRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", getRoot)
-	fmt.Printf("starting api server on port %s", HTTP_PORT)
-	err := http.ListenAndServe(fmt.Sprintf(":%s", HTTP_PORT), mux)
+	fmt.Printf("starting api server on port %s", appConfig.HttpPort)
+	err := http.ListenAndServe(fmt.Sprintf(":%s", appConfig.HttpPort), mux)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
 	} else if err != nil {
